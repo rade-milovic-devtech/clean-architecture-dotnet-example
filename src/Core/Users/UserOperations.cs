@@ -20,6 +20,11 @@ namespace Office365.UserManagement.Core.Users
 
 		public void DeleteUser(DeleteUserCommand command)
 		{
+			var customerCspId = customerInformationStore.GetCspIdFor(
+				new CustomerNumber(command.CustomerNumber));
+
+			microsoftOffice365UsersOperations.DeleteUserWith(
+				customerCspId, new UserName(command.UserName));
 		}
 	}
 }
