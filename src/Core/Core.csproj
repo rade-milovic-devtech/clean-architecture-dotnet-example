@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AssemblyName>Office365.UserManagement.Core</AssemblyName>
+		<RootNamespace>Office365.UserManagement.Core</RootNamespace>
+	</PropertyGroup>
+</Project>
