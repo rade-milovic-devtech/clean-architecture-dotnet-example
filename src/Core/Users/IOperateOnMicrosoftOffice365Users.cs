@@ -6,7 +6,7 @@ namespace Office365.UserManagement.Core.Users
 {
 	public interface IOperateOnMicrosoftOffice365Users
 	{
-		IEnumerable<SubscriptionCspId> GetAssignedSubscriptionIds(CustomerCspId customerCspId, UserName userName);
-		void DeleteUser(CustomerCspId customerCspId, UserName userName);
+		IEnumerable<SubscriptionCspId> GetAssignedSubscriptionIds(CustomerCspId customerId, UserName userName);
+		void DeleteUser(CustomerCspId customerId, UserName userName);
 	}
 }

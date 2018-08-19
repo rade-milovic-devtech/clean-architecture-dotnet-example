@@ -3,7 +3,8 @@ using Office365.UserManagement.Customers;
 using Office365.UserManagement.Subscriptions;
 using Xunit;
 
-using static Office365.UserManagement.Subscriptions.SubscriptionBuilder;
+using static Office365.UserManagement.Subscriptions.CspSubscriptionBuilder;
+using static Office365.UserManagement.Core.Customers.CustomerLicensingMode;
 
 namespace Office365.UserManagement.Users
 {
@@ -33,24 +34,23 @@ namespace Office365.UserManagement.Users
 			public WhenCustomerUsesAutomaticLicensingMode()
 			{
 				microsoftOffice365UsersOperations = new MicrosoftOffice365UsersOperationsSimulator()
-					.ForCustomerWithCspId(ACustomerCspId)
+					.ForCustomerWithId(ACustomerCspId)
 					.AndUser(AUserName)
 					.ReturnsSubscriptionIds(ASubscriptionCspId);
 				microsoftOffice365SubscriptionsOperations = new MicrosoftOffice365SubscriptionsOperationsSimulator()
-					.ForCustomerWithCspId(ACustomerCspId)
+					.ForCustomerWithId(ACustomerCspId)
 					.ReturnsSubscriptions(
-						ASubscription
+						ACspSubscription
 							.WithId(ASubscriptionCspId)
 							.WithAvailableLicensesOf(NumberOfAvailableLicenses)
 							.WithAssignedLicensesOf(NumberOfAssignedLicenses));
 
 				var userOperations = new UserOperations(
-					new CustomerConfigurationReaderSimulator()
-						.ForCustomerWithNumber(ACustomerNumber)
-						.ReturnsAutomaticLicensingMode(),
 					new CustomerInformationStoreSimulator()
 						.ForCustomerWithNumber(ACustomerNumber)
-						.ReturnsCustomerWithCspId(ACustomerCspId),
+						.ReturnsCustomerWith(
+							cspId: ACustomerCspId,
+							licensingMode: Automatic),
 					microsoftOffice365UsersOperations,
 					microsoftOffice365SubscriptionsOperations);
 

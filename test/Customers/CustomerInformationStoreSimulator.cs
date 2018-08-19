@@ -18,13 +18,15 @@ namespace Office365.UserManagement.Customers
 			return this;
 		}
 
-		public CustomerInformationStoreSimulator ReturnsCustomerWithCspId(string cspId)
+		public CustomerInformationStoreSimulator ReturnsCustomerWith(
+			string cspId, CustomerLicensingMode licensingMode)
 		{
 			customerInformationStoreMock.Setup(customerInformationStore =>
 				customerInformationStore.Get(new CustomerNumber(customerNumber)))
 					.Returns(new Customer(
 						new CustomerNumber(customerNumber),
-						new CustomerCspId(cspId)));
+						new CustomerCspId(cspId),
+						licensingMode));
 
 			return this;
 		}

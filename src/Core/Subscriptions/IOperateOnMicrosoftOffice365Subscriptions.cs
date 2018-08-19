@@ -1,12 +1,11 @@
 using Office365.UserManagement.Core.Customers;
-using System.Collections.Generic;
 
 namespace Office365.UserManagement.Core.Subscriptions
 {
 	public interface IOperateOnMicrosoftOffice365Subscriptions
 	{
-		IEnumerable<Subscription> GetSubscriptions(CustomerCspId customerCspId);
+		CspSubscriptions GetSubscriptions(CustomerCspId customerId);
 		void ChangeSubscriptionQuantity(
-			CustomerCspId customerCspId, SubscriptionCspId subscriptionCspId, LicenseQuantity newQuantity);
+			CustomerCspId customerId, SubscriptionCspId subscriptionId, LicenseQuantity newQuantity);
 	}
 }

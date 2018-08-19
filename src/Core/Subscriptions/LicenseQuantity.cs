@@ -8,8 +8,8 @@ namespace Office365.UserManagement.Core.Subscriptions
 
 		public LicenseQuantity(int value)
 		{
-			if (value < 1)
-				throw new ArgumentException($"{nameof(LicenseQuantity)} value cannot be less than 1.", nameof(value));
+			if (value < 0)
+				throw new ArgumentException($"{nameof(LicenseQuantity)} value cannot be negative.", nameof(value));
 
 			this.value = value;
 		}
@@ -38,5 +38,13 @@ namespace Office365.UserManagement.Core.Subscriptions
 
 		public static bool operator !=(LicenseQuantity left, LicenseQuantity right) =>
 			!(left == right);
+
+		public static bool operator <(LicenseQuantity left, LicenseQuantity right) =>
+			left.value < right.value;
+
+		public static bool operator >(LicenseQuantity left, LicenseQuantity right) =>
+			left.value > right.value;
+
+		public static implicit operator int(LicenseQuantity licenseQuantity) => licenseQuantity.value;
 	}
 }

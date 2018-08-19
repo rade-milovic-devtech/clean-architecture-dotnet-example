@@ -2,9 +2,9 @@ using Office365.UserManagement.Core.Subscriptions;
 
 namespace Office365.UserManagement.Subscriptions
 {
-	internal class SubscriptionBuilder
+	internal class CspSubscriptionBuilder
 	{
-		public static SubscriptionBuilder ASubscription => new SubscriptionBuilder();
+		public static CspSubscriptionBuilder ACspSubscription => new CspSubscriptionBuilder();
 
 		private string id = string.Empty;
 		private int numberOfAvailableLicenses = 1;
@@ -12,51 +12,51 @@ namespace Office365.UserManagement.Subscriptions
 		private int minAllowedNumberOfAvailableLicenses = 1;
 		private int maxAllowedNumberOfAvailableLicenses = 1_000_000_000;
 
-		private SubscriptionBuilder() {}
+		private CspSubscriptionBuilder() {}
 
-		public SubscriptionBuilder WithId(string id)
+		public CspSubscriptionBuilder WithId(string id)
 		{
 			this.id = id;
 
 			return this;
 		}
 
-		public SubscriptionBuilder WithAvailableLicensesOf(int amount)
+		public CspSubscriptionBuilder WithAvailableLicensesOf(int amount)
 		{
 			numberOfAvailableLicenses = amount;
 
 			return this;
 		}
 
-		public SubscriptionBuilder WithAssignedLicensesOf(int amount)
+		public CspSubscriptionBuilder WithAssignedLicensesOf(int amount)
 		{
 			numberOfAssignedLicenses = amount;
 
 			return this;
 		}
 
-		public SubscriptionBuilder WithMinAllowedLicensesOf(int amount)
+		public CspSubscriptionBuilder WithMinAllowedLicensesOf(int amount)
 		{
 			minAllowedNumberOfAvailableLicenses = amount;
 
 			return this;
 		}
 
-		public SubscriptionBuilder WithMaxAllowedLicensesOf(int amount)
+		public CspSubscriptionBuilder WithMaxAllowedLicensesOf(int amount)
 		{
 			maxAllowedNumberOfAvailableLicenses = amount;
 
 			return this;
 		}
 
-		public Subscription Build() =>
-			new Subscription(
+		public CspSubscription Build() =>
+			new CspSubscription(
 				new SubscriptionCspId(id),
 				new LicenseQuantity(numberOfAvailableLicenses),
 				new LicenseQuantity(numberOfAssignedLicenses),
 				new LicenseQuantity(minAllowedNumberOfAvailableLicenses),
 				new LicenseQuantity(maxAllowedNumberOfAvailableLicenses));
 
-		public static implicit operator Subscription(SubscriptionBuilder builder) => builder.Build();
+		public static implicit operator CspSubscription(CspSubscriptionBuilder builder) => builder.Build();
 	}
 }

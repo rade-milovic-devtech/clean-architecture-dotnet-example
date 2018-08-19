@@ -1,51 +1,50 @@
 using Moq;
 using Office365.UserManagement.Core.Customers;
 using Office365.UserManagement.Core.Subscriptions;
-using System.Collections.Generic;
 
 namespace Office365.UserManagement.Subscriptions
 {
 	internal class MicrosoftOffice365SubscriptionsOperationsSimulator
 		: IOperateOnMicrosoftOffice365Subscriptions
 	{
-		private string customerCspId = string.Empty;
+		private string customerId = string.Empty;
 
 		private readonly Mock<IOperateOnMicrosoftOffice365Subscriptions> microsoftOffice365SubscriptionsOperationsMock =
 			new Mock<IOperateOnMicrosoftOffice365Subscriptions>();
 
-		public MicrosoftOffice365SubscriptionsOperationsSimulator ForCustomerWithCspId(string customerCspId)
+		public MicrosoftOffice365SubscriptionsOperationsSimulator ForCustomerWithId(string customerId)
 		{
-			this.customerCspId = customerCspId;
+			this.customerId = customerId;
 
 			return this;
 		}
 
-		public MicrosoftOffice365SubscriptionsOperationsSimulator ReturnsSubscriptions(params Subscription[] subscriptions)
+		public MicrosoftOffice365SubscriptionsOperationsSimulator ReturnsSubscriptions(params CspSubscription[] subscriptions)
 		{
 			microsoftOffice365SubscriptionsOperationsMock.Setup(microsoftOffice365SubscriptionsOperations =>
-				microsoftOffice365SubscriptionsOperations.GetSubscriptions(new CustomerCspId(customerCspId)))
-					.Returns(subscriptions);
+				microsoftOffice365SubscriptionsOperations.GetSubscriptions(new CustomerCspId(customerId)))
+					.Returns(new CspSubscriptions(subscriptions));
 
 			return this;
 		}
 
-		public IEnumerable<Subscription> GetSubscriptions(CustomerCspId customerCspId) =>
-			microsoftOffice365SubscriptionsOperationsMock.Object.GetSubscriptions(customerCspId);
+		public CspSubscriptions GetSubscriptions(CustomerCspId customerId) =>
+			microsoftOffice365SubscriptionsOperationsMock.Object.GetSubscriptions(customerId);
 
-		public void ChangeSubscriptionQuantity(CustomerCspId customerCspId,
-			SubscriptionCspId subscriptionCspId, LicenseQuantity newQuantity)
+		public void ChangeSubscriptionQuantity(
+			CustomerCspId customerId, SubscriptionCspId subscriptionId, LicenseQuantity newQuantity)
 		{
 			microsoftOffice365SubscriptionsOperationsMock.Object
-				.ChangeSubscriptionQuantity(customerCspId, subscriptionCspId, newQuantity);
+				.ChangeSubscriptionQuantity(customerId, subscriptionId, newQuantity);
 		}
 
 		public void HasChangedSubscriptionQuantityFor(
-			string customerCspId, string subscriptionCspId, int newQuantity)
+			string customerId, string subscriptionId, int newQuantity)
 		{
 			microsoftOffice365SubscriptionsOperationsMock.Verify(microsoftOffice365SubscriptionsOperations =>
 				microsoftOffice365SubscriptionsOperations.ChangeSubscriptionQuantity(
-					new CustomerCspId(customerCspId),
-					new SubscriptionCspId(subscriptionCspId),
+					new CustomerCspId(customerId),
+					new SubscriptionCspId(subscriptionId),
 					new LicenseQuantity(newQuantity)),
 				Times.Once);
 		}
