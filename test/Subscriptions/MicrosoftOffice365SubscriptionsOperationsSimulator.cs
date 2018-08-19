@@ -1,3 +1,4 @@
+using System;
 using Moq;
 using Office365.UserManagement.Core.Customers;
 using Office365.UserManagement.Core.Subscriptions;
@@ -47,6 +48,16 @@ namespace Office365.UserManagement.Subscriptions
 					new SubscriptionCspId(subscriptionId),
 					new LicenseQuantity(newQuantity)),
 				Times.Once);
+		}
+
+		public void HasNotChangedAnySubscriptionQuantities()
+		{
+			microsoftOffice365SubscriptionsOperationsMock.Verify(microsoftOffice365SubscriptionsOperations =>
+				microsoftOffice365SubscriptionsOperations.ChangeSubscriptionQuantity(
+					It.IsAny<CustomerCspId>(),
+					It.IsAny<SubscriptionCspId>(),
+					It.IsAny<LicenseQuantity>())
+				, Times.Never);
 		}
 	}
 }

@@ -107,6 +107,12 @@ namespace Office365.UserManagement.Users
 			{
 				microsoftOffice365UsersOperations.HasDeletedAUserWith(ACustomerCspId, AUserName);
 			}
+
+			[Fact]
+			public void ThenTheQuantityOfTheAffectedSubscriptionsShouldBeUnaffected()
+			{
+				microsoftOffice365SubscriptionsOperations.HasNotChangedAnySubscriptionQuantities();
+			}
 		}
 	}
 }
