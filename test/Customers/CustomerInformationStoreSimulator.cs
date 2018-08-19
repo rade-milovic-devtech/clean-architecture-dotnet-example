@@ -18,16 +18,18 @@ namespace Office365.UserManagement.Customers
 			return this;
 		}
 
-		public CustomerInformationStoreSimulator ReturnsCspIdOf(string customerCspId)
+		public CustomerInformationStoreSimulator ReturnsCustomerWithCspId(string cspId)
 		{
 			customerInformationStoreMock.Setup(customerInformationStore =>
-				customerInformationStore.GetCspIdFor(new CustomerNumber(customerNumber)))
-					.Returns(new CustomerCspId(customerCspId));
+				customerInformationStore.Get(new CustomerNumber(customerNumber)))
+					.Returns(new Customer(
+						new CustomerNumber(customerNumber),
+						new CustomerCspId(cspId)));
 
 			return this;
 		}
 
-		public CustomerCspId GetCspIdFor(CustomerNumber customerNumber) =>
-			customerInformationStoreMock.Object.GetCspIdFor(customerNumber);
+		public Customer Get(CustomerNumber customerNumber) =>
+			customerInformationStoreMock.Object.Get(customerNumber);
 	}
 }

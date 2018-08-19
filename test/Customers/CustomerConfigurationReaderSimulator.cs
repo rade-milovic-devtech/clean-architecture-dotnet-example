@@ -21,13 +21,13 @@ namespace Office365.UserManagement.Customers
 		public CustomerConfigurationReaderSimulator ReturnsAutomaticLicensingMode()
 		{
 			customerConfigurationReaderMock.Setup(customerConfigurationReader =>
-				customerConfigurationReader.GetLicensingModeFor(new CustomerNumber(customerNumber)))
+				customerConfigurationReader.GetLicensingMode(new CustomerNumber(customerNumber)))
 					.Returns(CustomerLicensingMode.Automatic);
 
 			return this;
 		}
 
-		public CustomerLicensingMode GetLicensingModeFor(CustomerNumber customerNumber) =>
-			customerConfigurationReaderMock.Object.GetLicensingModeFor(customerNumber);
+		public CustomerLicensingMode GetLicensingMode(CustomerNumber customerNumber) =>
+			customerConfigurationReaderMock.Object.GetLicensingMode(customerNumber);
 	}
 }
