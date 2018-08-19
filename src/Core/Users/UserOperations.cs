@@ -1,5 +1,6 @@
 using Office365.UserManagement.Core.Customers;
 using Office365.UserManagement.Core.Subscriptions;
+using System.Linq;
 
 namespace Office365.UserManagement.Core.Users
 {
@@ -27,8 +28,23 @@ namespace Office365.UserManagement.Core.Users
 			var customer = customerInformationStore.Get(
 				new CustomerNumber(command.CustomerNumber));
 
-			microsoftOffice365UsersOperations.DeleteUser(
-				customer.CspId, new UserName(command.UserName));
+			var userName = new UserName(command.UserName);
+			var userSubscriptionIds = microsoftOffice365UsersOperations.GetAssignedSubscriptionIds(
+				customer.CspId, userName);
+			microsoftOffice365UsersOperations.DeleteUser(customer.CspId, userName);
+
+			var customerSubscriptions = microsoftOffice365SubscriptionsOperations.GetSubscriptions(
+				customer.CspId);
+
+			var affectedCustomerSubscriptionIds = customerSubscriptions.Select(
+				subscription => subscription.Id).Union(userSubscriptionIds).ToList();
+
+			affectedCustomerSubscriptionIds.ForEach(subscriptionId =>
+				microsoftOffice365SubscriptionsOperations.ChangeSubscriptionQuantity(
+				customer.CspId,
+				subscriptionId,
+				customerSubscriptions.First(subscription => subscription.Id == subscriptionId)
+					.NumberOfAssignedLicenses));
 		}
 	}
 }

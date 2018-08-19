@@ -29,6 +29,10 @@ namespace Office365.UserManagement.Core.Subscriptions
 				?? throw new ArgumentNullException(nameof(maxAllowedNumberOfAvailableLicenses));
 		}
 
+		public SubscriptionCspId Id => id;
+
+		public LicenseQuantity NumberOfAssignedLicenses => numberOfAssignedLicenses;
+
 		public override bool Equals(object obj)
 		{
 			var other = obj as Subscription;
