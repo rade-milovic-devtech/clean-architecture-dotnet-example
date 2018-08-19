@@ -70,5 +70,43 @@ namespace Office365.UserManagement.Users
 					ACustomerCspId, ASubscriptionCspId, NumberOfAssignedLicenses);
 			}
 		}
+
+		public class WhenCustomerUsesManualLicensingMode
+		{
+			private readonly MicrosoftOffice365UsersOperationsSimulator microsoftOffice365UsersOperations;
+			private readonly MicrosoftOffice365SubscriptionsOperationsSimulator microsoftOffice365SubscriptionsOperations;
+
+			public WhenCustomerUsesManualLicensingMode()
+			{
+				microsoftOffice365UsersOperations = new MicrosoftOffice365UsersOperationsSimulator()
+					.ForCustomerWithId(ACustomerCspId)
+					.AndUser(AUserName)
+					.ReturnsSubscriptionIds(ASubscriptionCspId);
+				microsoftOffice365SubscriptionsOperations = new MicrosoftOffice365SubscriptionsOperationsSimulator()
+					.ForCustomerWithId(ACustomerCspId)
+					.ReturnsSubscriptions(
+						ACspSubscription
+							.WithId(ASubscriptionCspId)
+							.WithAvailableLicensesOf(NumberOfAvailableLicenses)
+							.WithAssignedLicensesOf(NumberOfAssignedLicenses));
+
+				var userOperations = new UserOperations(
+					new CustomerInformationStoreSimulator()
+						.ForCustomerWithNumber(ACustomerNumber)
+						.ReturnsCustomerWith(
+							cspId: ACustomerCspId,
+							licensingMode: Manual),
+					microsoftOffice365UsersOperations,
+					microsoftOffice365SubscriptionsOperations);
+
+				userOperations.DeleteUser(ADeleteUserCommandWith(ACustomerNumber, AUserName));
+			}
+
+			[Fact]
+			public void ThenTheUserShouldBeDeleted()
+			{
+				microsoftOffice365UsersOperations.HasDeletedAUserWith(ACustomerCspId, AUserName);
+			}
+		}
 	}
 }
