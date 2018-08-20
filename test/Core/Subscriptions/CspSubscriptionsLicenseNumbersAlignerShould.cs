@@ -1,13 +1,12 @@
 using FluentAssertions;
 using Office365.UserManagement.Core.Customers;
-using Office365.UserManagement.Core.Subscriptions;
 using Xunit;
 
-using static Office365.UserManagement.Subscriptions.CspSubscriptionBuilder;
-using static Office365.UserManagement.Subscriptions.CspSubscriptionsBuilder;
-using static Office365.UserManagement.Subscriptions.SubscriptionCspIdBuilder;
+using static Office365.UserManagement.Core.Subscriptions.CspSubscriptionsBuilder;
+using static Office365.UserManagement.Core.Subscriptions.CspSubscriptionBuilder;
+using static Office365.UserManagement.Core.Subscriptions.SubscriptionCspIdBuilder;
 
-namespace Office365.UserManagement.Subscriptions
+namespace Office365.UserManagement.Core.Subscriptions
 {
 	[Trait("Category", "Unit")]
 	public class CspSubscriptionsLicenseNumbersAlignerShould

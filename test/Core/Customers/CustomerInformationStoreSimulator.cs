@@ -1,7 +1,6 @@
 using Moq;
-using Office365.UserManagement.Core.Customers;
 
-namespace Office365.UserManagement.Customers
+namespace Office365.UserManagement.Core.Customers
 {
 	public class CustomerInformationStoreSimulator
 		: IStoreCustomerInformation

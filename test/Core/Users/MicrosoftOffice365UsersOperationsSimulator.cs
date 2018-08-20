@@ -1,11 +1,10 @@
 using Moq;
 using Office365.UserManagement.Core.Customers;
 using Office365.UserManagement.Core.Subscriptions;
-using Office365.UserManagement.Core.Users;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Office365.UserManagement.Users
+namespace Office365.UserManagement.Core.Users
 {
 	public class MicrosoftOffice365UsersOperationsSimulator
 		: IOperateOnMicrosoftOffice365Users

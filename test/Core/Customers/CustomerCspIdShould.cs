@@ -1,10 +1,9 @@
 using FluentAssertions;
-using Office365.UserManagement.Core.Customers;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Office365.UserManagement.Customers
+namespace Office365.UserManagement.Core.Customers
 {
 	[Trait("Category", "Unit")]
 	public class CustomerCspIdShould

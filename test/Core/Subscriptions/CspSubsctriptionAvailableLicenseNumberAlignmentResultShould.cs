@@ -1,11 +1,10 @@
 using FluentAssertions;
-using Office365.UserManagement.Core.Subscriptions;
 using Xunit;
 
-using static Office365.UserManagement.Subscriptions.SubscriptionCspIdBuilder;
-using static Office365.UserManagement.Subscriptions.LicenseQuantityBuilder;
+using static Office365.UserManagement.Core.Subscriptions.SubscriptionCspIdBuilder;
+using static Office365.UserManagement.Core.Subscriptions.LicenseQuantityBuilder;
 
-namespace Office365.UserManagement.Subscriptions
+namespace Office365.UserManagement.Core.Subscriptions
 {
 	[Trait("Category", "Unit")]
 	public class CspSubsctriptionAvailableLicenseNumberAlignmentResultShould

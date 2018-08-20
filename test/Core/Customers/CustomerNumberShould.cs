@@ -1,13 +1,12 @@
 using FluentAssertions;
-using Office365.UserManagement.Core.Users;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Office365.UserManagement.Users
+namespace Office365.UserManagement.Core.Customers
 {
 	[Trait("Category", "Unit")]
-	public class UserNameShould
+	public class CustomerNumberShould
 	{
 		[Theory]
 		[InlineData(null)]
@@ -15,14 +14,14 @@ namespace Office365.UserManagement.Users
 		[InlineData("  ")]
 		public void FailToCreateWhenValueIsNotProvided(string value)
 		{
-			Action createUserName = () => new UserName(value);
+			Action createCustomerNumber = () => new CustomerNumber(value);
 
-			createUserName.Should().Throw<ArgumentException>();
+			createCustomerNumber.Should().Throw<ArgumentException>();
 		}
 
 		[Theory]
 		[MemberData(nameof(EqualityTestData))]
-		public void BeEqualToAnotherUserNameWithTheSameValue(UserName first, UserName second)
+		public void BeEqualToAnotherCustomerNumberWithTheSameValue(CustomerNumber first, CustomerNumber second)
 		{
 			first.Should().Be(second);
 			first.GetHashCode().Should().Be(second.GetHashCode());
@@ -34,8 +33,8 @@ namespace Office365.UserManagement.Users
 			{
 				new object[]
 				{
-					new UserName("tester@testdomain.com"),
-					new UserName("tester@testdomain.com")
+					new CustomerNumber("1234"),
+					new CustomerNumber("1234")
 				}
 			};
 	}

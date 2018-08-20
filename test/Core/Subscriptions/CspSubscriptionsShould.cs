@@ -1,11 +1,11 @@
 using FluentAssertions;
 using Xunit;
 
-using static Office365.UserManagement.Subscriptions.CspSubscriptionsBuilder;
-using static Office365.UserManagement.Subscriptions.CspSubscriptionBuilder;
-using static Office365.UserManagement.Subscriptions.SubscriptionCspIdBuilder;
+using static Office365.UserManagement.Core.Subscriptions.CspSubscriptionsBuilder;
+using static Office365.UserManagement.Core.Subscriptions.CspSubscriptionBuilder;
+using static Office365.UserManagement.Core.Subscriptions.SubscriptionCspIdBuilder;
 
-namespace Office365.UserManagement.Subscriptions
+namespace Office365.UserManagement.Core.Subscriptions
 {
 	[Trait("Category", "Unit")]
 	public class CspSubscriptionsShould
@@ -40,9 +40,9 @@ namespace Office365.UserManagement.Subscriptions
 					.WithId("7051f130-8a43-444c-9d41-dbe6ebdb0b59")
 					.WithSameNumberOfAvailableAndAssignedLicenses());
 
-			var cspSubsctriptionAvailableLicenseNumberAlignmentResults = cspSubscriptions.AlignNumberOfAvailableAndAssignedLicenses();
+			var cspSubscriptionsAvailableLicenseNumberAlignmentResults = cspSubscriptions.AlignNumberOfAvailableAndAssignedLicenses();
 
-			cspSubsctriptionAvailableLicenseNumberAlignmentResults
+			cspSubscriptionsAvailableLicenseNumberAlignmentResults
 				.Should().ContainSingle()
 					.Which.SubscriptionId.Should().Be(SubscriptionIdOf("4a8b014f-8f37-47e1-9f72-41727b4973cb"));
 		}

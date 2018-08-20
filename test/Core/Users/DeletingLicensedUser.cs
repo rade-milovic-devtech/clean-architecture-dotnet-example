@@ -1,12 +1,10 @@
-using Office365.UserManagement.Core.Users;
-using Office365.UserManagement.Customers;
-using Office365.UserManagement.Subscriptions;
+using Office365.UserManagement.Core.Customers;
+using Office365.UserManagement.Core.Subscriptions;
 using Xunit;
 
-using static Office365.UserManagement.Subscriptions.CspSubscriptionBuilder;
-using static Office365.UserManagement.Core.Customers.CustomerLicensingMode;
+using static Office365.UserManagement.Core.Subscriptions.CspSubscriptionBuilder;
 
-namespace Office365.UserManagement.Users
+namespace Office365.UserManagement.Core.Users
 {
 	[Trait("Category", "Acceptance")]
 	public class DeletingLicensedUser
@@ -48,7 +46,7 @@ namespace Office365.UserManagement.Users
 						.ForCustomerWithNumber(ACustomerNumber)
 						.ReturnsCustomerWith(
 							cspId: ACustomerCspId,
-							licensingMode: Automatic),
+							licensingMode: CustomerLicensingMode.Automatic),
 					microsoftOffice365UsersOperations,
 					microsoftOffice365SubscriptionsOperations);
 
@@ -78,7 +76,7 @@ namespace Office365.UserManagement.Users
 						.ForCustomerWithNumber(ACustomerNumber)
 						.ReturnsCustomerWith(
 							cspId: ACustomerCspId,
-							licensingMode: Manual),
+							licensingMode: CustomerLicensingMode.Manual),
 					microsoftOffice365UsersOperations,
 					microsoftOffice365SubscriptionsOperations);
 

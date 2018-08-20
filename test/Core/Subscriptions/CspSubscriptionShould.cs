@@ -1,13 +1,12 @@
 using FluentAssertions;
-using Office365.UserManagement.Core.Subscriptions;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-using static Office365.UserManagement.Subscriptions.CspSubscriptionBuilder;
-using static Office365.UserManagement.Subscriptions.LicenseQuantityBuilder;
+using static Office365.UserManagement.Core.Subscriptions.CspSubscriptionBuilder;
+using static Office365.UserManagement.Core.Subscriptions.LicenseQuantityBuilder;
 
-namespace Office365.UserManagement.Subscriptions
+namespace Office365.UserManagement.Core.Subscriptions
 {
 	[Trait("Category", "Unit")]
 	public class CspSubscriptionShould

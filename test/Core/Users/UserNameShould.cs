@@ -1,13 +1,12 @@
 using FluentAssertions;
-using Office365.UserManagement.Core.Subscriptions;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Office365.UserManagement.Subscriptions
+namespace Office365.UserManagement.Core.Users
 {
 	[Trait("Category", "Unit")]
-	public class SubscriptionCspIdShould
+	public class UserNameShould
 	{
 		[Theory]
 		[InlineData(null)]
@@ -15,14 +14,14 @@ namespace Office365.UserManagement.Subscriptions
 		[InlineData("  ")]
 		public void FailToCreateWhenValueIsNotProvided(string value)
 		{
-			Action createSubscriptionCspId = () => new SubscriptionCspId(value);
+			Action createUserName = () => new UserName(value);
 
-			createSubscriptionCspId.Should().Throw<ArgumentException>();
+			createUserName.Should().Throw<ArgumentException>();
 		}
 
 		[Theory]
 		[MemberData(nameof(EqualityTestData))]
-		public void BeEqualToAnotherSubscriptionCspIdWithTheSameValue(SubscriptionCspId first, SubscriptionCspId second)
+		public void BeEqualToAnotherUserNameWithTheSameValue(UserName first, UserName second)
 		{
 			first.Should().Be(second);
 			first.GetHashCode().Should().Be(second.GetHashCode());
@@ -34,8 +33,8 @@ namespace Office365.UserManagement.Subscriptions
 			{
 				new object[]
 				{
-					new SubscriptionCspId("ed7e5fc4-8df6-4efd-849b-93d5119cf626"),
-					new SubscriptionCspId("ed7e5fc4-8df6-4efd-849b-93d5119cf626")
+					new UserName("tester@testdomain.com"),
+					new UserName("tester@testdomain.com")
 				}
 			};
 	}

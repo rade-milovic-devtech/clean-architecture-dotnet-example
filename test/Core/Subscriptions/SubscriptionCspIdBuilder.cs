@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Office365.UserManagement.Core.Subscriptions;
 
-namespace Office365.UserManagement.Subscriptions
+namespace Office365.UserManagement.Core.Subscriptions
 {
 	public static class SubscriptionCspIdBuilder
 	{
