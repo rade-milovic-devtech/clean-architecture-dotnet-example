@@ -1,12 +1,13 @@
 using FluentAssertions;
-using Office365.UserManagement.Core.Subscriptions;
-using System.Collections.Generic;
 using Xunit;
 
+using static Office365.UserManagement.Subscriptions.CspSubscriptionsBuilder;
 using static Office365.UserManagement.Subscriptions.CspSubscriptionBuilder;
+using static Office365.UserManagement.Subscriptions.SubscriptionCspIdBuilder;
 
 namespace Office365.UserManagement.Subscriptions
 {
+	[Trait("Category", "Unit")]
 	public class CspSubscriptionsShould
 	{
 		[Fact]
@@ -34,12 +35,10 @@ namespace Office365.UserManagement.Subscriptions
 			var cspSubscriptions = CspSubscriptionsOf(
 				ACspSubscription
 					.WithId("4a8b014f-8f37-47e1-9f72-41727b4973cb")
-					.WithAvailableLicensesOf(2)
-					.WithAssignedLicensesOf(1),
+					.WithDifferentNumberOfAvailableAndAssignedLicenses(),
 				ACspSubscription
 					.WithId("7051f130-8a43-444c-9d41-dbe6ebdb0b59")
-					.WithAvailableLicensesOf(1)
-					.WithAssignedLicensesOf(1));
+					.WithSameNumberOfAvailableAndAssignedLicenses());
 
 			var cspSubsctriptionAvailableLicenseNumberAlignmentResults = cspSubscriptions.AlignNumberOfAvailableAndAssignedLicenses();
 
@@ -47,12 +46,5 @@ namespace Office365.UserManagement.Subscriptions
 				.Should().ContainSingle()
 					.Which.SubscriptionId.Should().Be(SubscriptionIdOf("4a8b014f-8f37-47e1-9f72-41727b4973cb"));
 		}
-
-		private CspSubscriptions CspSubscriptionsOf(params CspSubscription[] cspSubscriptions) =>
-			new CspSubscriptions(cspSubscriptions);
-
-		private IEnumerable<SubscriptionCspId> SubscriptionIdsOf(params SubscriptionCspId[] subscriptionIds) => subscriptionIds;
-
-		private SubscriptionCspId SubscriptionIdOf(string subscriptionId) => new SubscriptionCspId(subscriptionId);
 	}
 }

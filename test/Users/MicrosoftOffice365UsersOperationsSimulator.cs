@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Office365.UserManagement.Users
 {
-	internal class MicrosoftOffice365UsersOperationsSimulator
+	public class MicrosoftOffice365UsersOperationsSimulator
 		: IOperateOnMicrosoftOffice365Users
 	{
 		private string customerId = string.Empty;

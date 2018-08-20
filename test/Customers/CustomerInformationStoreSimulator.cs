@@ -3,7 +3,7 @@ using Office365.UserManagement.Core.Customers;
 
 namespace Office365.UserManagement.Customers
 {
-	internal class CustomerInformationStoreSimulator
+	public class CustomerInformationStoreSimulator
 		: IStoreCustomerInformation
 	{
 		private readonly Mock<IStoreCustomerInformation> customerInformationStoreMock =

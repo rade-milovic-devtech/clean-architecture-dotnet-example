@@ -2,7 +2,7 @@ using Office365.UserManagement.Core.Subscriptions;
 
 namespace Office365.UserManagement.Subscriptions
 {
-	internal class CspSubscriptionBuilder
+	public class CspSubscriptionBuilder
 	{
 		public static CspSubscriptionBuilder ACspSubscription => new CspSubscriptionBuilder();
 
@@ -31,6 +31,22 @@ namespace Office365.UserManagement.Subscriptions
 		public CspSubscriptionBuilder WithAssignedLicensesOf(int amount)
 		{
 			numberOfAssignedLicenses = amount;
+
+			return this;
+		}
+
+		public CspSubscriptionBuilder WithDifferentNumberOfAvailableAndAssignedLicenses()
+		{
+			numberOfAvailableLicenses = 2;
+			numberOfAssignedLicenses = 1;
+
+			return this;
+		}
+
+		public CspSubscriptionBuilder WithSameNumberOfAvailableAndAssignedLicenses()
+		{
+			numberOfAvailableLicenses = minAllowedNumberOfAvailableLicenses;
+			numberOfAssignedLicenses = minAllowedNumberOfAvailableLicenses;
 
 			return this;
 		}

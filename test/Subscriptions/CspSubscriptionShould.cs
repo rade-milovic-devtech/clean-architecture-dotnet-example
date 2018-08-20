@@ -1,11 +1,12 @@
 using FluentAssertions;
-using Office365.UserManagement.Core.Subscriptions;
 using Xunit;
 
 using static Office365.UserManagement.Subscriptions.CspSubscriptionBuilder;
+using static Office365.UserManagement.Subscriptions.LicenseQuantityBuilder;
 
 namespace Office365.UserManagement.Subscriptions
 {
+	[Trait("Category", "Unit")]
 	public class CspSubscriptionShould
 	{
 		[Fact]
@@ -69,7 +70,5 @@ namespace Office365.UserManagement.Subscriptions
 			result.NewNumberOfAvailableLicenses
 				.Should().Be(LicenseQuantityOf(4));
 		}
-
-		private LicenseQuantity LicenseQuantityOf(int value) => new LicenseQuantity(value);
 	}
 }

@@ -18,20 +18,12 @@ namespace Office365.UserManagement.Users
 		private const int NumberOfAvailableLicenses = 5;
 		private const int NumberOfAssignedLicenses = 1;
 
-		private static DeleteUserCommand ADeleteUserCommandWith(
-			string customerNumber, string userName) =>
-				new DeleteUserCommand
-				{
-					CustomerNumber = customerNumber,
-					UserName = userName
-				};
-
-		public class WhenCustomerUsesAutomaticLicensingMode
+		public abstract class DeletingLicensedUserContext
 		{
-			private readonly MicrosoftOffice365UsersOperationsSimulator microsoftOffice365UsersOperations;
-			private readonly MicrosoftOffice365SubscriptionsOperationsSimulator microsoftOffice365SubscriptionsOperations;
+			protected readonly MicrosoftOffice365UsersOperationsSimulator microsoftOffice365UsersOperations;
+			protected readonly MicrosoftOffice365SubscriptionsOperationsSimulator microsoftOffice365SubscriptionsOperations;
 
-			public WhenCustomerUsesAutomaticLicensingMode()
+			protected DeletingLicensedUserContext()
 			{
 				microsoftOffice365UsersOperations = new MicrosoftOffice365UsersOperationsSimulator()
 					.ForCustomerWithId(ACustomerCspId)
@@ -44,7 +36,13 @@ namespace Office365.UserManagement.Users
 							.WithId(ASubscriptionCspId)
 							.WithAvailableLicensesOf(NumberOfAvailableLicenses)
 							.WithAssignedLicensesOf(NumberOfAssignedLicenses));
+			}
+		}
 
+		public class WhenCustomerUsesAutomaticLicensingMode : DeletingLicensedUserContext
+		{
+			public WhenCustomerUsesAutomaticLicensingMode()
+			{
 				var userOperations = new UserOperations(
 					new CustomerInformationStoreSimulator()
 						.ForCustomerWithNumber(ACustomerNumber)
@@ -71,25 +69,10 @@ namespace Office365.UserManagement.Users
 			}
 		}
 
-		public class WhenCustomerUsesManualLicensingMode
+		public class WhenCustomerUsesManualLicensingMode : DeletingLicensedUserContext
 		{
-			private readonly MicrosoftOffice365UsersOperationsSimulator microsoftOffice365UsersOperations;
-			private readonly MicrosoftOffice365SubscriptionsOperationsSimulator microsoftOffice365SubscriptionsOperations;
-
 			public WhenCustomerUsesManualLicensingMode()
 			{
-				microsoftOffice365UsersOperations = new MicrosoftOffice365UsersOperationsSimulator()
-					.ForCustomerWithId(ACustomerCspId)
-					.AndUser(AUserName)
-					.ReturnsSubscriptionIds(ASubscriptionCspId);
-				microsoftOffice365SubscriptionsOperations = new MicrosoftOffice365SubscriptionsOperationsSimulator()
-					.ForCustomerWithId(ACustomerCspId)
-					.ReturnsSubscriptions(
-						ACspSubscription
-							.WithId(ASubscriptionCspId)
-							.WithAvailableLicensesOf(NumberOfAvailableLicenses)
-							.WithAssignedLicensesOf(NumberOfAssignedLicenses));
-
 				var userOperations = new UserOperations(
 					new CustomerInformationStoreSimulator()
 						.ForCustomerWithNumber(ACustomerNumber)
@@ -114,5 +97,12 @@ namespace Office365.UserManagement.Users
 				microsoftOffice365SubscriptionsOperations.HasNotChangedAnySubscriptionQuantities();
 			}
 		}
+
+		private static DeleteUserCommand ADeleteUserCommandWith(string customerNumber, string userName) =>
+			new DeleteUserCommand
+			{
+				CustomerNumber = customerNumber,
+				UserName = userName
+			};
 	}
 }

@@ -1,11 +1,10 @@
-using System;
 using Moq;
 using Office365.UserManagement.Core.Customers;
 using Office365.UserManagement.Core.Subscriptions;
 
 namespace Office365.UserManagement.Subscriptions
 {
-	internal class MicrosoftOffice365SubscriptionsOperationsSimulator
+	public class MicrosoftOffice365SubscriptionsOperationsSimulator
 		: IOperateOnMicrosoftOffice365Subscriptions
 	{
 		private string customerId = string.Empty;
