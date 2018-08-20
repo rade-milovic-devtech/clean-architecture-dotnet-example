@@ -32,8 +32,7 @@ namespace Office365.UserManagement.Core.Subscriptions
 
 		public CspSubsctriptionAvailableLicenseNumberAlignmentResult AlignNumberOfAvailableAndAssignedLicenses()
 		{
-			LicenseQuantity newNumberOfAvailableLicenses = null;
-
+			LicenseQuantity newNumberOfAvailableLicenses;
 			if (numberOfAssignedLicenses < minAllowedNumberOfAvailableLicenses)
 				newNumberOfAvailableLicenses = new LicenseQuantity(minAllowedNumberOfAvailableLicenses);
 			else if (numberOfAssignedLicenses > maxAllowedNumberOfAvailableLicenses)

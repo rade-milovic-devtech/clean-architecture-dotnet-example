@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Office365.UserManagement.Core.Customers;
 
+using static Office365.UserManagement.Core.Customers.CustomerLicensingMode;
+
 namespace Office365.UserManagement.Core.Subscriptions
 {
 	public class CspSubscriptionsLicenseNumbersAligner
@@ -22,7 +24,7 @@ namespace Office365.UserManagement.Core.Subscriptions
 		public IEnumerable<CspSubsctriptionAvailableLicenseNumberAlignmentResult> AlignLicenseNumbersForCspSubscriptionsWithIdsOf(
 			IEnumerable<SubscriptionCspId> subscriptionIds)
 		{
-			if (customerLicensingMode == CustomerLicensingMode.Manual)
+			if (customerLicensingMode == Manual)
 				return Enumerable.Empty<CspSubsctriptionAvailableLicenseNumberAlignmentResult>();
 
 			return cspSubscriptions.OnlyWith(subscriptionIds)
