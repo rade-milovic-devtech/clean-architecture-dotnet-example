@@ -5,7 +5,6 @@ namespace Office365.UserManagement.Core.Customers
 	public class Customer
 	{
 		private readonly CustomerNumber number;
-		private readonly CustomerLicensingMode licensingMode;
 
 		public Customer(
 			CustomerNumber number,
@@ -16,12 +15,13 @@ namespace Office365.UserManagement.Core.Customers
 				?? throw new ArgumentNullException(nameof(number));
 			CspId = cspId
 				?? throw new ArgumentNullException(nameof(cspId));
-			this.licensingMode = licensingMode;
+			LicensingMode = licensingMode;
 		}
 
 		public CustomerCspId CspId { get; }
+		public CustomerLicensingMode LicensingMode { get; }
 
 		public override string ToString() =>
-			$"{nameof(Customer)} {{ {nameof(number)}: {number}, {nameof(CspId)}: {CspId}, {nameof(licensingMode)}: {licensingMode} }}";
+			$"{nameof(Customer)} {{ {nameof(number)}: {number}, {nameof(CspId)}: {CspId}, {nameof(LicensingMode)}: {LicensingMode} }}";
 	}
 }

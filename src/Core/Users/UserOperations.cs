@@ -23,7 +23,7 @@ namespace Office365.UserManagement.Core.Users
 
 		public void DeleteUser(DeleteUserCommand command)
 		{
-			Customer customer = GetCustomerInformationFor(command.CustomerNumber);
+			var customer = GetCustomerInformationFor(command.CustomerNumber);
 
 			var cspSubscriptionIdsOfLicensesAssignedToAUser =
 				GetCspSubscriptionIdsOfLicensesAssignedToAUserWith(customer.CspId, command.UserName);
@@ -31,12 +31,12 @@ namespace Office365.UserManagement.Core.Users
 
 			var customerCspSubscriptions = GetCspSubscriptionsFor(customer.CspId);
 
-			var cspSubsctriptionAvailableLicenseNumberAlignmentResults =
+			var cspSubsctriptionsLicenseNumbersAlignmentResults =
 				AlignNumberOfLicensesForSubscriptionsAffectedByUserDeletion(
-					customerCspSubscriptions, cspSubscriptionIdsOfLicensesAssignedToAUser);
+					customer.LicensingMode, customerCspSubscriptions, cspSubscriptionIdsOfLicensesAssignedToAUser);
 
 			UpdateNumberOfAvailableLicensesFor(
-				customer.CspId, cspSubsctriptionAvailableLicenseNumberAlignmentResults);
+				customer.CspId, cspSubsctriptionsLicenseNumbersAlignmentResults);
 		}
 
 		private Customer GetCustomerInformationFor(string customerNumber) =>
@@ -56,10 +56,13 @@ namespace Office365.UserManagement.Core.Users
 			microsoftOffice365SubscriptionsOperations.GetSubscriptions(customerCspId);
 
 		private IEnumerable<CspSubsctriptionAvailableLicenseNumberAlignmentResult> AlignNumberOfLicensesForSubscriptionsAffectedByUserDeletion(
-			CspSubscriptions cspSubscriptions, IEnumerable<SubscriptionCspId> userSubscriptionIds)
+			CustomerLicensingMode customerLicensingMode, CspSubscriptions customerCspSubscriptions, IEnumerable<SubscriptionCspId> userSubscriptionIds)
 		{
-			return cspSubscriptions.OnlyWith(userSubscriptionIds)
-				.AlignNumberOfAvailableAndAssignedLicenses();
+			var cspSubscriptionsLicenseNumbersAligner = new CspSubscriptionsLicenseNumbersAligner(
+				customerCspSubscriptions, customerLicensingMode);
+
+			return cspSubscriptionsLicenseNumbersAligner
+				.AlignLicenseNumbersForCspSubscriptionsWithIdsOf(userSubscriptionIds);
 		}
 
 		private void UpdateNumberOfAvailableLicensesFor(
