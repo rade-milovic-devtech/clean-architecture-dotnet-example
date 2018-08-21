@@ -3,6 +3,7 @@ using Office365.UserManagement.Core.Subscriptions;
 using Xunit;
 
 using static Office365.UserManagement.Core.Subscriptions.CspSubscriptionBuilder;
+using static Office365.UserManagement.Core.Customers.CustomerLicensingMode;
 
 namespace Office365.UserManagement.Core.Users
 {
@@ -42,11 +43,11 @@ namespace Office365.UserManagement.Core.Users
 			public WhenCustomerUsesAutomaticLicensingMode()
 			{
 				var userOperations = new UserOperations(
-					new CustomerInformationStoreSimulator()
+					new CustomersInformationStoreSimulator()
 						.ForCustomerWithNumber(ACustomerNumber)
 						.ReturnsCustomerWith(
 							cspId: ACustomerCspId,
-							licensingMode: CustomerLicensingMode.Automatic),
+							licensingMode: Automatic),
 					microsoftOffice365UsersOperations,
 					microsoftOffice365SubscriptionsOperations);
 
@@ -72,11 +73,11 @@ namespace Office365.UserManagement.Core.Users
 			public WhenCustomerUsesManualLicensingMode()
 			{
 				var userOperations = new UserOperations(
-					new CustomerInformationStoreSimulator()
+					new CustomersInformationStoreSimulator()
 						.ForCustomerWithNumber(ACustomerNumber)
 						.ReturnsCustomerWith(
 							cspId: ACustomerCspId,
-							licensingMode: CustomerLicensingMode.Manual),
+							licensingMode: Manual),
 					microsoftOffice365UsersOperations,
 					microsoftOffice365SubscriptionsOperations);
 

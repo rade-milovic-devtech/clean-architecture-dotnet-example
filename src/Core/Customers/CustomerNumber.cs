@@ -38,5 +38,7 @@ namespace Office365.UserManagement.Core.Customers
 
 		public static bool operator !=(CustomerNumber left, CustomerNumber right) =>
 			!(left == right);
+
+		public static implicit operator string(CustomerNumber customerNumber) => customerNumber.value;
 	}
 }

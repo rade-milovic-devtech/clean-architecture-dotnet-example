@@ -2,25 +2,25 @@ using Moq;
 
 namespace Office365.UserManagement.Core.Customers
 {
-	public class CustomerInformationStoreSimulator
-		: IStoreCustomerInformation
+	public class CustomersInformationStoreSimulator
+		: IStoreCustomersInformation
 	{
-		private readonly Mock<IStoreCustomerInformation> customerInformationStoreMock =
-			new Mock<IStoreCustomerInformation>();
+		private readonly Mock<IStoreCustomersInformation> customersInformationStoreMock =
+			new Mock<IStoreCustomersInformation>();
 
 		private string customerNumber = string.Empty;
 
-		public CustomerInformationStoreSimulator ForCustomerWithNumber(string customerNumber)
+		public CustomersInformationStoreSimulator ForCustomerWithNumber(string customerNumber)
 		{
 			this.customerNumber = customerNumber;
 
 			return this;
 		}
 
-		public CustomerInformationStoreSimulator ReturnsCustomerWith(
+		public CustomersInformationStoreSimulator ReturnsCustomerWith(
 			string cspId, CustomerLicensingMode licensingMode)
 		{
-			customerInformationStoreMock.Setup(customerInformationStore =>
+			customersInformationStoreMock.Setup(customerInformationStore =>
 				customerInformationStore.Get(new CustomerNumber(customerNumber)))
 					.Returns(new Customer(
 						new CustomerNumber(customerNumber),
@@ -31,6 +31,6 @@ namespace Office365.UserManagement.Core.Customers
 		}
 
 		public Customer Get(CustomerNumber customerNumber) =>
-			customerInformationStoreMock.Object.Get(customerNumber);
+			customersInformationStoreMock.Object.Get(customerNumber);
 	}
 }

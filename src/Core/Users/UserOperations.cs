@@ -7,16 +7,16 @@ namespace Office365.UserManagement.Core.Users
 {
 	public class UserOperations
 	{
-		private readonly IStoreCustomerInformation customerInformationStore;
+		private readonly IStoreCustomersInformation customersInformationStore;
 		private readonly IOperateOnMicrosoftOffice365Users microsoftOffice365UsersOperations;
 		private readonly IOperateOnMicrosoftOffice365Subscriptions microsoftOffice365SubscriptionsOperations;
 
 		public UserOperations(
-			IStoreCustomerInformation customerInformationStore,
+			IStoreCustomersInformation customersInformationStore,
 			IOperateOnMicrosoftOffice365Users microsoftOffice365UsersOperations,
 			IOperateOnMicrosoftOffice365Subscriptions microsoftOffice365SubscriptionsOperations)
 		{
-			this.customerInformationStore = customerInformationStore;
+			this.customersInformationStore = customersInformationStore;
 			this.microsoftOffice365UsersOperations = microsoftOffice365UsersOperations;
 			this.microsoftOffice365SubscriptionsOperations = microsoftOffice365SubscriptionsOperations;
 		}
@@ -40,7 +40,7 @@ namespace Office365.UserManagement.Core.Users
 		}
 
 		private Customer GetCustomerInformationFor(string customerNumber) =>
-			customerInformationStore.Get(new CustomerNumber(customerNumber));
+			customersInformationStore.Get(new CustomerNumber(customerNumber));
 
 		private IEnumerable<SubscriptionCspId> GetCspSubscriptionIdsOfLicensesAssignedToAUserWith(
 			CustomerCspId customerCspId, string userName) =>
