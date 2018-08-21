@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Office365.UserManagement.Core.Users
 {
-	public class UserOperations
+	public class UserOperations : IPerformUserOperations
 	{
 		private readonly IStoreCustomersInformation customersInformationStore;
 		private readonly IOperateOnMicrosoftOffice365Users microsoftOffice365UsersOperations;
