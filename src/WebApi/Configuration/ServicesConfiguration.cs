@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Office365.UserManagement.Core.Customers;
 using Office365.UserManagement.Core.Subscriptions;
@@ -10,16 +12,16 @@ namespace Office365.UserManagement.WebApi.Configuration
 {
 	public static class ServicesConfiguration
 	{
-		public static void ConfigureAppServices(this IServiceCollection services)
+		public static void ConfigureAppServices(this IServiceCollection services, WebHostBuilderContext context)
 		{
-			// TODO: We should populate this from the configuration file.
-			var configuration = new MongoDbConfiguration
+			var mongoDbConfigurationSection = context.Configuration.GetSection("MongoDb");
+			var mongoDbConfiguration = new MongoDbConfiguration
 			{
-				ConnectionString = "mongodb://localhost:27017",
-				DatabaseName = "office365",
-				CustomersCollectionName = "customers"
+				ConnectionString = mongoDbConfigurationSection.GetValue<string>("ConnectionString"),
+				DatabaseName = mongoDbConfigurationSection.GetValue<string>("DatabaseName"),
+				CustomersCollectionName = mongoDbConfigurationSection.GetValue<string>("CustomersCollectionName")
 			};
-			services.AddScoped<IStoreCustomersInformation>(_ => new MongoDbCustomersInformationStore(configuration));
+			services.AddScoped<IStoreCustomersInformation>(_ => new MongoDbCustomersInformationStore(mongoDbConfiguration));
 			services.AddScoped<IOperateOnMicrosoftOffice365Subscriptions, MicrosoftOffice365SubscriptionsOperations>();
 			services.AddScoped<IOperateOnMicrosoftOffice365Users, MicrosoftOffice365UsersOperations>();
 			services.AddScoped<IPerformUserOperations, UserOperations>();

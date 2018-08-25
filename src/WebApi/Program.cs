@@ -15,7 +15,7 @@ namespace Office365.UserManagement.WebApi
 
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
-				.ConfigureServices(services => services.ConfigureAppServices())
+				.ConfigureServices((context, services) => services.ConfigureAppServices(context))
 				.UseStartup<Startup>();
 	}
 }
