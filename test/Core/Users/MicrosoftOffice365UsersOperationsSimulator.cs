@@ -12,7 +12,7 @@ namespace Office365.UserManagement.Core.Users
 		private string customerId = string.Empty;
 		private string userName = string.Empty;
 
-		private readonly Mock<IOperateOnMicrosoftOffice365Users> microsoftOffice365UserOperationsMock =
+		private readonly Mock<IOperateOnMicrosoftOffice365Users> microsoftOffice365UsersOperationsMock =
 			new Mock<IOperateOnMicrosoftOffice365Users>();
 
 		public MicrosoftOffice365UsersOperationsSimulator ForCustomerWithId(string customerId)
@@ -29,28 +29,41 @@ namespace Office365.UserManagement.Core.Users
 			return this;
 		}
 
+		public MicrosoftOffice365UsersOperationsSimulator ReturnsUser(User user)
+		{
+			microsoftOffice365UsersOperationsMock.Setup(microsoftOffice365UsersOperations =>
+				microsoftOffice365UsersOperations.GetUserDetails(
+					new CustomerCspId(customerId), new UserName(userName)))
+						.Returns(user);
+
+			return this;
+		}
+
 		public MicrosoftOffice365UsersOperationsSimulator ReturnsSubscriptionIds(params string[] subscriptionIds)
 		{
-			microsoftOffice365UserOperationsMock.Setup(microsoftOffice365UserOperations =>
-				microsoftOffice365UserOperations.GetAssignedSubscriptionIds(
+			microsoftOffice365UsersOperationsMock.Setup(microsoftOffice365UsersOperations =>
+				microsoftOffice365UsersOperations.GetAssignedSubscriptionIds(
 					new CustomerCspId(customerId), new UserName(userName)))
 						.Returns(subscriptionIds.Select(id => new SubscriptionCspId(id)));
 
 			return this;
 		}
 
+		public User GetUserDetails(CustomerCspId customerId, UserName userName) =>
+			microsoftOffice365UsersOperationsMock.Object.GetUserDetails(customerId, userName);
+
 		public IEnumerable<SubscriptionCspId> GetAssignedSubscriptionIds(CustomerCspId customerId, UserName userName) =>
-			microsoftOffice365UserOperationsMock.Object.GetAssignedSubscriptionIds(customerId, userName);
+			microsoftOffice365UsersOperationsMock.Object.GetAssignedSubscriptionIds(customerId, userName);
 
 		public void DeleteUser(CustomerCspId customerId, UserName userName)
 		{
-			microsoftOffice365UserOperationsMock.Object.DeleteUser(customerId, userName);
+			microsoftOffice365UsersOperationsMock.Object.DeleteUser(customerId, userName);
 		}
 
 		public void HasDeletedAUserWith(string customerId, string userName)
 		{
-			microsoftOffice365UserOperationsMock.Verify(microsoftOffice365UserOperations =>
-				microsoftOffice365UserOperations.DeleteUser(
+			microsoftOffice365UsersOperationsMock.Verify(microsoftOffice365UsersOperations =>
+				microsoftOffice365UsersOperations.DeleteUser(
 					new CustomerCspId(customerId), new UserName(userName)),
 				Times.Once);
 		}

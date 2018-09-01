@@ -2,6 +2,8 @@ using Office365.UserManagement.Core.Customers;
 using Office365.UserManagement.Core.Subscriptions;
 using Xunit;
 
+using static Office365.UserManagement.Core.Users.UserBuilder;
+
 namespace Office365.UserManagement.Core.Users
 {
 	[Trait("Category", "Acceptance")]
@@ -21,7 +23,13 @@ namespace Office365.UserManagement.Core.Users
 				new CustomersInformationStoreSimulator()
 					.ForCustomerWithNumber(ACustomerNumber)
 					.ReturnsCustomerWith(ACustomerCspId),
-				new MicrosoftOffice365UsersOperationsSimulator(),
+				new MicrosoftOffice365UsersOperationsSimulator()
+					.ForCustomerWithId(ACustomerCspId)
+					.AndUser(AUserName)
+					.ReturnsUser(AUser
+						.WithUserName(AUserName)
+						.WithFirstName(AUserFirstName)
+						.WithLastName(AUserLastName)),
 				new MicrosoftOffice365SubscriptionsOperationsSimulator(),
 				userDetailsPresenter);
 

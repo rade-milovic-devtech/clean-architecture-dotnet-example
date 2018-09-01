@@ -24,7 +24,17 @@ namespace Office365.UserManagement.Core.Users
 			this.userDetailsPresenter = userDetailsPresenter;
 		}
 
-		public void GetUserDetails(GetUserDetailsCommand command) {}
+		public void GetUserDetails(GetUserDetailsCommand command)
+		{
+			var customer = GetCustomerInformationFor(command.CustomerNumber);
+
+			var userDetails = GetUserDetailsFor(customer.CspId, command.UserName);
+
+			userDetailsPresenter.Format(userDetails);
+		}
+
+		private User GetUserDetailsFor(CustomerCspId customerCspId, string userName) =>
+			microsoftOffice365UsersOperations.GetUserDetails(customerCspId, new UserName(userName));
 
 		public void DeleteUser(DeleteUserCommand command)
 		{
