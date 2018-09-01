@@ -22,3 +22,13 @@ Then the user should be deleted
   And the quantity of the affected subscriptions
   should be unaffected
 ```
+
+## Use Case: Customer's user views other user's details
+
+### Scenario: Presenting other user's contact information
+
+```
+Given I am a customer's user
+When I view other user's details
+Then I should be presented with its contact information
+```
