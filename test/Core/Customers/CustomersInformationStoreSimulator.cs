@@ -18,7 +18,8 @@ namespace Office365.UserManagement.Core.Customers
 		}
 
 		public CustomersInformationStoreSimulator ReturnsCustomerWith(
-			string cspId, CustomerLicensingMode licensingMode)
+			string cspId,
+			CustomerLicensingMode licensingMode = CustomerLicensingMode.Automatic)
 		{
 			customersInformationStoreMock.Setup(customerInformationStore =>
 				customerInformationStore.Get(new CustomerNumber(customerNumber)))

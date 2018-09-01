@@ -9,7 +9,7 @@ namespace Office365.UserManagement.Core.Subscriptions
 		public SubscriptionCspId(string value)
 		{
 			if (string.IsNullOrWhiteSpace(value))
-				throw new ArgumentException($"{nameof(SubscriptionCspId)} value cannot be empty.", nameof(value));
+				throw new ArgumentException($"{nameof(SubscriptionCspId)} {nameof(value)} cannot be empty.", nameof(value));
 
 			this.value = value;
 		}

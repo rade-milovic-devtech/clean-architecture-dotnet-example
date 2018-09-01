@@ -10,16 +10,21 @@ namespace Office365.UserManagement.Core.Users
 		private readonly IStoreCustomersInformation customersInformationStore;
 		private readonly IOperateOnMicrosoftOffice365Users microsoftOffice365UsersOperations;
 		private readonly IOperateOnMicrosoftOffice365Subscriptions microsoftOffice365SubscriptionsOperations;
+		private readonly IFormatUserDetailsForPresentation userDetailsPresenter;
 
 		public UserOperations(
 			IStoreCustomersInformation customersInformationStore,
 			IOperateOnMicrosoftOffice365Users microsoftOffice365UsersOperations,
-			IOperateOnMicrosoftOffice365Subscriptions microsoftOffice365SubscriptionsOperations)
+			IOperateOnMicrosoftOffice365Subscriptions microsoftOffice365SubscriptionsOperations,
+			IFormatUserDetailsForPresentation userDetailsPresenter)
 		{
 			this.customersInformationStore = customersInformationStore;
 			this.microsoftOffice365UsersOperations = microsoftOffice365UsersOperations;
 			this.microsoftOffice365SubscriptionsOperations = microsoftOffice365SubscriptionsOperations;
+			this.userDetailsPresenter = userDetailsPresenter;
 		}
+
+		public void GetUserDetails(GetUserDetailsCommand command) {}
 
 		public void DeleteUser(DeleteUserCommand command)
 		{

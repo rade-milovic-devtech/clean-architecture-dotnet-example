@@ -9,7 +9,7 @@ namespace Office365.UserManagement.Core.Customers
 		public CustomerNumber(string value)
 		{
 			if (string.IsNullOrWhiteSpace(value))
-				throw new ArgumentException($"{nameof(CustomerNumber)} value cannot be empty.", nameof(value));
+				throw new ArgumentException($"{nameof(CustomerNumber)} {nameof(value)} cannot be empty.", nameof(value));
 
 			this.value = value;
 		}

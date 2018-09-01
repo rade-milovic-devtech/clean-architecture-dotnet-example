@@ -9,7 +9,7 @@ namespace Office365.UserManagement.Core.Users
 		public UserName(string value)
 		{
 			if (string.IsNullOrWhiteSpace(value))
-				throw new ArgumentException($"{nameof(UserName)} value cannot be empty.", nameof(value));
+				throw new ArgumentException($"{nameof(UserName)} {nameof(value)} cannot be empty.", nameof(value));
 
 			this.value = value;
 		}

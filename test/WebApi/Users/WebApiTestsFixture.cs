@@ -14,24 +14,25 @@ namespace Office365.UserManagement.WebApi.Users
 
 		public WebApiTestsFixture()
 		{
-			var userOperations = new UserOperationsSimulator();
-
 			var builder = new WebHostBuilder()
 				.ConfigureServices(services =>
 				{
-					services.AddScoped<IPerformUserOperations>(_ => userOperations);
+					services.AddScoped<IPerformUserOperations>(_ =>
+					{
+						UserOperations = new UserOperationsSimulator();
+
+						return UserOperations;
+					});
 				})
 				.UseStartup<Startup>();
 			server = new TestServer(builder);
 
 			HttpClient = server.CreateClient();
-
-			UserOperations = userOperations;
 		}
 
 		public HttpClient HttpClient { get; }
 
-		public UserOperationsSimulator UserOperations { get; }
+		public UserOperationsSimulator UserOperations { get; private set; }
 
 		public void Dispose()
 		{

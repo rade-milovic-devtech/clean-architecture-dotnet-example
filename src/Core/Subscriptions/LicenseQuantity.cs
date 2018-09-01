@@ -9,7 +9,7 @@ namespace Office365.UserManagement.Core.Subscriptions
 		public LicenseQuantity(int value)
 		{
 			if (value < 0)
-				throw new ArgumentException($"{nameof(LicenseQuantity)} value cannot be negative.", nameof(value));
+				throw new ArgumentException($"{nameof(LicenseQuantity)} {nameof(value)} cannot be negative.", nameof(value));
 
 			this.value = value;
 		}

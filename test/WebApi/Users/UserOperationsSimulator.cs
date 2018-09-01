@@ -7,6 +7,11 @@ namespace Office365.UserManagement.WebApi.Users
 	{
 		private readonly Mock<IPerformUserOperations> userOperationsMock = new Mock<IPerformUserOperations>();
 
+		public void GetUserDetails(GetUserDetailsCommand command)
+		{
+			userOperationsMock.Object.GetUserDetails(command);
+		}
+
 		public void DeleteUser(DeleteUserCommand command)
 		{
 			userOperationsMock.Object.DeleteUser(command);
@@ -18,7 +23,8 @@ namespace Office365.UserManagement.WebApi.Users
 				userOperations.DeleteUser(
 					It.Is<DeleteUserCommand>(command =>
 						command.CustomerNumber == customerNumber
-						&& command.UserName == userName)));
+						&& command.UserName == userName)),
+				Times.Once);
 		}
 	}
 }

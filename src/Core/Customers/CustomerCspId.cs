@@ -9,7 +9,7 @@ namespace Office365.UserManagement.Core.Customers
 		public CustomerCspId(string value)
 		{
 			if (string.IsNullOrWhiteSpace(value))
-				throw new ArgumentException($"{nameof(CustomerCspId)} value cannot be empty.", nameof(value));
+				throw new ArgumentException($"{nameof(CustomerCspId)} {nameof(value)} cannot be empty.", nameof(value));
 
 			this.value = value;
 		}
