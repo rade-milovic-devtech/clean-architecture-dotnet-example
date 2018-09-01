@@ -8,10 +8,30 @@ namespace Office365.UserManagement.WebApi.Users
 	public class UsersController : ControllerBase
 	{
 		private readonly IPerformUserOperations userOperations;
+		private readonly UserDetailsPresenter userDetailsPresenter;
 
-		public UsersController(IPerformUserOperations userOperations)
+		public UsersController(
+			IPerformUserOperations userOperations,
+			UserDetailsPresenter userDetailsPresenter)
 		{
 			this.userOperations = userOperations;
+			this.userDetailsPresenter = userDetailsPresenter;
+		}
+
+		// GET api/customers/1234/users/tester@testdomain.onmicrosoft.com
+		[HttpGet("{name}")]
+		public IActionResult GetOne(
+			[FromRoute(Name = "number")] string customerNumber,
+			[FromRoute(Name = "name")] string userName)
+		{
+			var command = new GetUserDetailsCommand
+			{
+				CustomerNumber = customerNumber,
+				UserName = userName
+			};
+			userOperations.GetUserDetails(command);
+
+			return userDetailsPresenter.Result;
 		}
 
 		// DELETE api/customers/1234/users/tester@testdomain.onmicrosoft.com

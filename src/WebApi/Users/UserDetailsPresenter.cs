@@ -5,14 +5,14 @@ namespace Office365.UserManagement.WebApi.Users
 {
 	public class UserDetailsPresenter : IFormatUserDetailsForPresentation
 	{
-		public void Format(User data)
+		public virtual void Format(User data)
 		{
 			if (data == null) return;
 
 			Result = new OkObjectResult(AsResponse(data));
 		}
 
-		public IActionResult Result { get; private set; } = new NotFoundResult();
+		public IActionResult Result { get; protected set; } = new NotFoundResult();
 
 		private UserDetailsResponse AsResponse(User user) =>
 			new UserDetailsResponse

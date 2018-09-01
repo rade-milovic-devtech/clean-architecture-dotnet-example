@@ -17,12 +17,11 @@ namespace Office365.UserManagement.WebApi.Users
 			var builder = new WebHostBuilder()
 				.ConfigureServices(services =>
 				{
-					services.AddScoped<IPerformUserOperations>(_ =>
-					{
-						UserOperations = new UserOperationsSimulator();
+					var userDetailsPresenter = new UserDetailsPresenterStub();
+					UserOperations = new UserOperationsSimulator(userDetailsPresenter);
 
-						return UserOperations;
-					});
+					services.AddScoped<UserDetailsPresenter>(provider => userDetailsPresenter);
+					services.AddScoped<IPerformUserOperations>(provider => UserOperations);
 				})
 				.UseStartup<Startup>();
 			server = new TestServer(builder);
