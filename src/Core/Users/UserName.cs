@@ -38,5 +38,7 @@ namespace Office365.UserManagement.Core.Users
 
 		public static bool operator !=(UserName left, UserName right) =>
 			!(left == right);
+
+		public static implicit operator string(UserName userName) => userName.value;
 	}
 }
