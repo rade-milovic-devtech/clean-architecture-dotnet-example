@@ -21,7 +21,6 @@ namespace Office365.UserManagement.Core.Users
 		{
 			protected readonly MicrosoftOffice365UsersOperationsSimulator microsoftOffice365UsersOperations;
 			protected readonly MicrosoftOffice365SubscriptionsOperationsSimulator microsoftOffice365SubscriptionsOperations;
-			protected readonly IFormatUserDetailsForPresentation userDetailsPresenter = new UserDetailsPresenterSimulator();
 
 			protected DeletingLicensedUserContext()
 			{
@@ -50,8 +49,7 @@ namespace Office365.UserManagement.Core.Users
 							cspId: ACustomerCspId,
 							licensingMode: Automatic),
 					microsoftOffice365UsersOperations,
-					microsoftOffice365SubscriptionsOperations,
-					userDetailsPresenter);
+					microsoftOffice365SubscriptionsOperations);
 
 				userOperations.DeleteUser(ADeleteUserCommandWith(ACustomerNumber, AUserName));
 			}
@@ -81,8 +79,7 @@ namespace Office365.UserManagement.Core.Users
 							cspId: ACustomerCspId,
 							licensingMode: Manual),
 					microsoftOffice365UsersOperations,
-					microsoftOffice365SubscriptionsOperations,
-					userDetailsPresenter);
+					microsoftOffice365SubscriptionsOperations);
 
 				userOperations.DeleteUser(ADeleteUserCommandWith(ACustomerNumber, AUserName));
 			}

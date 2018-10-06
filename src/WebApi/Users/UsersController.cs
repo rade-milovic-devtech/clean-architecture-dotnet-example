@@ -8,14 +8,10 @@ namespace Office365.UserManagement.WebApi.Users
 	public class UsersController : ControllerBase
 	{
 		private readonly IPerformUserOperations userOperations;
-		private readonly UserDetailsPresenter userDetailsPresenter;
 
-		public UsersController(
-			IPerformUserOperations userOperations,
-			UserDetailsPresenter userDetailsPresenter)
+		public UsersController(IPerformUserOperations userOperations)
 		{
 			this.userOperations = userOperations;
-			this.userDetailsPresenter = userDetailsPresenter;
 		}
 
 		// GET api/customers/1234/users/tester@testdomain.onmicrosoft.com
@@ -29,9 +25,10 @@ namespace Office365.UserManagement.WebApi.Users
 				CustomerNumber = customerNumber,
 				UserName = userName
 			};
-			userOperations.GetUserDetails(command);
+			var presenter = new UserDetailsPresenter();
+			userOperations.GetUserDetails(command, presenter);
 
-			return userDetailsPresenter.Result;
+			return presenter.Result;
 		}
 
 		// DELETE api/customers/1234/users/tester@testdomain.onmicrosoft.com

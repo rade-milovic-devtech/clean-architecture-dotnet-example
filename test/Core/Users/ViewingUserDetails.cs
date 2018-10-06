@@ -18,7 +18,7 @@ namespace Office365.UserManagement.Core.Users
 		[Fact]
 		public void PresentsUserContactInformation()
 		{
-			var userDetailsPresenter = new UserDetailsPresenterSimulator();
+			var presenter = new UserDetailsPresenterSimulator();
 			var userOperations = new UserOperations(
 				new CustomersInformationStoreSimulator()
 					.ForCustomerWithNumber(ACustomerNumber)
@@ -30,13 +30,11 @@ namespace Office365.UserManagement.Core.Users
 						.WithUserName(AUserName)
 						.WithFirstName(AUserFirstName)
 						.WithLastName(AUserLastName)),
-				new MicrosoftOffice365SubscriptionsOperationsSimulator(),
-				userDetailsPresenter);
+				new MicrosoftOffice365SubscriptionsOperationsSimulator());
 
-			userOperations.GetUserDetails(AGetUserDetaisCommandWith(ACustomerNumber, AUserName));
+			userOperations.GetUserDetails(AGetUserDetaisCommandWith(ACustomerNumber, AUserName), presenter);
 
-			userDetailsPresenter.HasFormattedUserDataWith(
-				AUserName, AUserFirstName, AUserLastName);
+			presenter.HasPresentedUserDataWith(AUserName, AUserFirstName, AUserLastName);
 		}
 
 		private GetUserDetailsCommand AGetUserDetaisCommandWith(string customerNumber, string userName) =>

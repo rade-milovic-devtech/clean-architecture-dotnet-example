@@ -18,10 +18,8 @@ namespace Office365.UserManagement.WebApi.Users
 		{
 			builder.ConfigureServices(services =>
 			{
-				var userDetailsPresenter = new UserDetailsPresenterStub();
-				UserOperations = new UserOperationsSimulator(userDetailsPresenter);
+				UserOperations = new UserOperationsSimulator();
 
-				services.AddScoped<UserDetailsPresenter>(provider => userDetailsPresenter);
 				services.AddScoped<IPerformUserOperations>(provider => UserOperations);
 			});
 

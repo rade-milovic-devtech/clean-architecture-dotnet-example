@@ -23,7 +23,7 @@ namespace Office365.UserManagement.WebApi.Users
 		{
 			var presenter = new UserDetailsPresenter();
 
-			presenter.Format(null);
+			presenter.Present(null);
 
 			presenter.Result.Should()
 				.BeOfType<NotFoundResult>();
@@ -34,10 +34,10 @@ namespace Office365.UserManagement.WebApi.Users
 		{
 			var presenter = new UserDetailsPresenter();
 
-			presenter.Format(AUser
-				.WithUserName("testuser@testcustomer.onmicrosoft.com")
-				.WithFirstName("FirstName")
-				.WithLastName("LastName"));
+			presenter.Present(
+				AUser.WithUserName("testuser@testcustomer.onmicrosoft.com")
+					.WithFirstName("FirstName")
+					.WithLastName("LastName"));
 
 			presenter.Result.Should()
 				.BeOfType<OkObjectResult>()

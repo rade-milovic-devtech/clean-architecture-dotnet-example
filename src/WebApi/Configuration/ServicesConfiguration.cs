@@ -7,7 +7,6 @@ using Office365.UserManagement.Core.Users;
 using Office365.UserManagement.Infrastructure.Customers;
 using Office365.UserManagement.Infrastructure.Subscriptions;
 using Office365.UserManagement.Infrastructure.Users;
-using Office365.UserManagement.WebApi.Users;
 
 namespace Office365.UserManagement.WebApi.Configuration
 {
@@ -25,9 +24,6 @@ namespace Office365.UserManagement.WebApi.Configuration
 			services.AddSingleton<IStoreCustomersInformation>(_ => new MongoDbCustomersInformationStore(mongoDbConfiguration));
 			services.AddSingleton<IOperateOnMicrosoftOffice365Subscriptions, MicrosoftOffice365SubscriptionsOperations>();
 			services.AddSingleton<IOperateOnMicrosoftOffice365Users, MicrosoftOffice365UsersOperations>();
-			services.AddScoped<UserDetailsPresenter>();
-			services.AddScoped<IFormatUserDetailsForPresentation>(provider =>
-				provider.GetService<UserDetailsPresenter>());
 			services.AddScoped<IPerformUserOperations, UserOperations>();
 		}
 	}

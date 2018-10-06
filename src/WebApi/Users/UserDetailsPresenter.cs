@@ -3,9 +3,9 @@ using Office365.UserManagement.Core.Users;
 
 namespace Office365.UserManagement.WebApi.Users
 {
-	public class UserDetailsPresenter : IFormatUserDetailsForPresentation
+	public class UserDetailsPresenter : IPresentUserDetails
 	{
-		public virtual void Format(User data)
+		public void Present(User data)
 		{
 			if (data == null) return;
 

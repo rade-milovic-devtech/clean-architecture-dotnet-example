@@ -7,15 +7,8 @@ namespace Office365.UserManagement.WebApi.Users
 	{
 		private readonly Mock<IPerformUserOperations> userOperationsMock = new Mock<IPerformUserOperations>();
 
-		private readonly UserDetailsPresenterStub presenter;
-
 		private string customerNumber = string.Empty;
 		private string userName = string.Empty;
-
-		public UserOperationsSimulator(UserDetailsPresenterStub presenter)
-		{
-			this.presenter = presenter;
-		}
 
 		public UserOperationsSimulator ForCustomerWithNumber(string customerNumber)
 		{
@@ -34,24 +27,30 @@ namespace Office365.UserManagement.WebApi.Users
 		public void PopulatesPresenterDataWithNotFoundResult()
 		{
 			userOperationsMock.Setup(userOperations =>
-				userOperations.GetUserDetails(It.Is<GetUserDetailsCommand>(command =>
-					command.CustomerNumber == customerNumber
-					&& command.UserName == userName)))
-						.Callback(presenter.SetNotFoundResult);
+				userOperations.GetUserDetails(
+					It.Is<GetUserDetailsCommand>(command =>
+						command.CustomerNumber == customerNumber
+						&& command.UserName == userName),
+					It.IsAny<IPresentUserDetails>()))
+					.Callback<GetUserDetailsCommand, IPresentUserDetails>((_, presenter) =>
+						presenter.Present(null));
 		}
 
-		public void PopulatesPresenterDataWithOkResultWith(string email, string fullName)
+		public void PopulatesPresenterDataWithOkResultWith(string email, string firstName, string lastName)
 		{
 			userOperationsMock.Setup(userOperations =>
-				userOperations.GetUserDetails(It.Is<GetUserDetailsCommand>(command =>
-					command.CustomerNumber == customerNumber
-					&& command.UserName == userName)))
-						.Callback(() => presenter.SetOkResultResultWith(email, fullName));
+				userOperations.GetUserDetails(
+					It.Is<GetUserDetailsCommand>(command =>
+						command.CustomerNumber == customerNumber
+						&& command.UserName == userName),
+					It.IsAny<IPresentUserDetails>()))
+					.Callback<GetUserDetailsCommand, IPresentUserDetails>((_, presenter) =>
+						presenter.Present(new User(new UserName(userName), firstName, lastName)));
 		}
 
-		public void GetUserDetails(GetUserDetailsCommand command)
+		public void GetUserDetails(GetUserDetailsCommand command, IPresentUserDetails presenter)
 		{
-			userOperationsMock.Object.GetUserDetails(command);
+			userOperationsMock.Object.GetUserDetails(command, presenter);
 		}
 
 		public void DeleteUser(DeleteUserCommand command)

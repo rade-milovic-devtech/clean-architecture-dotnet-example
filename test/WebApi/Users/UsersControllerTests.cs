@@ -12,8 +12,6 @@ namespace Office365.UserManagement.WebApi.Users
 	{
 		private const string ACustomerNumber = "1234";
 		private const string AUserName = "tester@testdomain.onmicrosoft.com";
-		private const string AUserEmail = "tester@testdomain.onmicrosoft.com";
-		private const string AUserFullName = "FirstName LastName";
 
 		private readonly HttpClient httpClient;
 		private readonly UserOperationsSimulator userOperations;
@@ -44,15 +42,16 @@ namespace Office365.UserManagement.WebApi.Users
 				.ForCustomerWithNumber(ACustomerNumber)
 				.AndUser(AUserName)
 				.PopulatesPresenterDataWithOkResultWith(
-					email: AUserEmail,
-					fullName: AUserFullName);
+					email: "tester@testdomain.onmicrosoft.com",
+					firstName: "FirstName",
+					lastName: "LastName");
 
 			var response = await httpClient.GetAsync(CustomerUserUrlFor(ACustomerNumber, AUserName));
 
 			response.StatusCode.Should().Be(HttpStatusCode.OK);
 			var responseContent = await response.Content.ReadAsStringAsync();
 			responseContent.Should()
-				.Be(UserDetailsResponseJsonWith(AUserEmail, AUserFullName));
+				.Be(UserDetailsResponseJsonWith("tester@testdomain.onmicrosoft.com", "FirstName LastName"));
 		}
 
 		[Fact]
